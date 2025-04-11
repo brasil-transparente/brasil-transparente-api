@@ -1,0 +1,23 @@
+# Ignore the build directory
+build/
+
+# Compiled class file
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+*.bin
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+*.lock
+*.probe
