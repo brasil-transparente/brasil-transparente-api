@@ -1,0 +1,12 @@
+services:
+
+  db:
+    image: mariadb
+    restart: on-failure
+    environment:
+      MYSQL_USERNAME: ${DB_USER_LOCAL}
+      MYSQL_PASSWORD: ${DB_PASSWORD_LOCAL}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD_LOCAL}
+      MYSQL_DATABASE: gastos
+    ports:
+      - "3306:3306"
