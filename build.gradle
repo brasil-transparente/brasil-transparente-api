@@ -49,6 +49,10 @@ dependencies {
     // Lombok
     implementation 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+
+    // flyway for migrations
+    implementation "org.flywaydb:flyway-core"
+    implementation "org.flywaydb:flyway-mysql"
 }
 
 application {
