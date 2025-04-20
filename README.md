@@ -12,7 +12,7 @@ Módulo responsável por ler dados do banco de dados e retornar para a interface
 ### Passos
 1. Clone o repositório:
    ```bash
-   git clone https://github.com/gabriel-missel/brasil-transparente-api.git
+   git clone https://github.com/brasil-transparente/brasil-transparente-api.git
    ```
 2. Crie a estrutura do banco no MySQL importando o arquivo de Dump, localizado no Drive (link abaixo).
 3. Certifique-se de que os dados do banco de dados local estão corretos no application.properties.
