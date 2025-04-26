@@ -25,7 +25,7 @@ public class FinderService {
     @Autowired
     private ElementoDespesaRepository elementoDespesaRepository;
     @Autowired
-    private GastoTotalRepository gastoTotalRepository;
+    private UnidadeFederativaRepository unidadeFederativaRepository;
     @Autowired
     private DespesaSimplificadaRepository despesaSimplificadaRepository;
     @Autowired
@@ -37,8 +37,8 @@ public class FinderService {
     private static final int UNIDADE_GESTORA_LEVEL = 3;
     private static final int ELEMENTO_DESPESA_LEVEL = 4;
 
-    public List<DisplayableElementDTO> getPoderList() {
-        List<Poder> poderList = poderRepository.findAll();
+    public List<DisplayableElementDTO> getPodereByUnidadeFederativa(Long unidadeFederativaId) {
+        List<Poder> poderList = poderRepository.findByUnidadeFederativaUnidadeFederativaId(unidadeFederativaId);
         List<DisplayableElementDTO> displayableElementDTOList = new ArrayList<>();
         for (Poder poder : poderList) {
             displayableElementDTOList.add(mapToDisplayableElementDto(poder.getPoderId(), poder.getNamePoder(),
@@ -54,7 +54,6 @@ public class FinderService {
             displayableElementDTOList.add(mapToDisplayableElementDto(ministerio.getMinisterioId(), ministerio.getNameMinisterio(),
                     ministerio.getTotalValueSpent(), ministerio.getPercentageOfTotal(), MINISTERIO_LEVEL));
         }
-
         return displayableElementDTOList;
     }
 
@@ -65,7 +64,6 @@ public class FinderService {
             displayableElementDTOList.add(mapToDisplayableElementDto(orgao.getOrgaoId(), orgao.getNameOrgao(),
                     orgao.getTotalValueSpent(), orgao.getPercentageOfTotal(), ORGAO_LEVEL));
         }
-
         return displayableElementDTOList;
     }
 
@@ -95,8 +93,8 @@ public class FinderService {
         return despesaSimplicadaList;
     }
 
-    public Double getGastoTotal() {
-        return gastoTotalRepository.findAll().getFirst().getGastoTotalValue();
+    public Double getTotalValueSpentByUnidadeFederativaId(Long unidadeFederativaId) {
+        return unidadeFederativaRepository.findTotalValueSpentByUnidadeFederativaId(unidadeFederativaId);
     }
 
     private DisplayableElementDTO mapToDisplayableElementDto(Long id, String name, double totalValueSpent, double percentageOfTotal, int levelOfElement) {
