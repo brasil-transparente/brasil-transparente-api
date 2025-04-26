@@ -1,5 +1,6 @@
 package com.brasil.transparente.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -18,6 +19,11 @@ public class Poder {
     private Long poderId;
 
     private String namePoder;
+
+    @ManyToOne
+    @JsonBackReference
+    @JoinColumn(name = "unidade_federativa_id", referencedColumnName = "unidadeFederativaId")
+    private UnidadeFederativa unidadeFederativa;
 
     @OneToMany(mappedBy = "poder", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference

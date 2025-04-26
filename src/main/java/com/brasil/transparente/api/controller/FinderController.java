@@ -12,16 +12,16 @@ import java.util.List;
 @RestController
 public class FinderController {
 
+    private final FinderService finderService;
 
-    private FinderService finderService;
     public FinderController( FinderService finderService)
     {
         this.finderService = finderService;
     }
 
-    @GetMapping("/poderes")
-    public List<DisplayableElementDTO> getPoderList() {
-        return finderService.getPoderList();
+    @GetMapping("/unidade-federativa/{idUnidadeFederativa}/poderes")
+    public List<DisplayableElementDTO> getPoderesByUnidadeFederativa(@PathVariable("idUnidadeFederativa") Long unidadeFederativaId) {
+        return finderService.getPodereByUnidadeFederativa(unidadeFederativaId);
     }
 
     @GetMapping("/poder/{idPoder}/ministerios")
@@ -49,9 +49,9 @@ public class FinderController {
         return finderService.getSimplifiedReport();
     }
 
-    @GetMapping("/gasto-total")
-    public Double getGastoTotal() {
-        return finderService.getGastoTotal();
+    @GetMapping("/unidade-federativa/{idUnidadeFederativa}/total-value-spent")
+    public Double getTotalValueSpentByUnidadeFederativaId(@PathVariable("idUnidadeFederativa") Long unidadeFederativaId) {
+        return finderService.getTotalValueSpentByUnidadeFederativaId(unidadeFederativaId);
     }
 
 }
