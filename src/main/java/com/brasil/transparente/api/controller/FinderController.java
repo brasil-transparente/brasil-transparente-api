@@ -3,14 +3,12 @@ package com.brasil.transparente.api.controller;
 import com.brasil.transparente.api.dto.DisplayableElementDTO;
 import com.brasil.transparente.api.entity.*;
 import com.brasil.transparente.api.service.FinderService;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@CrossOrigin("*")
 @RestController
 public class FinderController {
 
