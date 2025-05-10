@@ -8,16 +8,14 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "despesa_simplificada")
-public class DespesaSimplicada {
+public class DespesaSimplificada {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long despesaSimplificadaId;
-
-    private String despesaSimplificadaName;
-
-    private double despesaSimplificadaTotalValue;
-
-    private double despesaSimplificadaPercentageOfTotal;
+    private String name;
+    private double totalValue;
+    private double percentageOfTotal;
+    private Long unidadeFederativaId;
 
 }
