@@ -3,12 +3,14 @@ package com.brasil.transparente.api.controller;
 import com.brasil.transparente.api.dto.DisplayableElementDTO;
 import com.brasil.transparente.api.entity.*;
 import com.brasil.transparente.api.service.FinderService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@CrossOrigin("*")
 @RestController
 public class FinderController {
 
@@ -19,8 +21,8 @@ public class FinderController {
         this.finderService = finderService;
     }
 
-    @GetMapping("/unidade-federativa/{idUnidadeFederativa}/poderes")
-    public List<DisplayableElementDTO> getPoderesByUnidadeFederativa(@PathVariable("idUnidadeFederativa") Long unidadeFederativaId) {
+    @GetMapping("/unidade-federativa/{unidadeFederativaId}/poderes")
+    public List<DisplayableElementDTO> getPoderesByUnidadeFederativa(@PathVariable("unidadeFederativaId") Long unidadeFederativaId) {
         return finderService.getPodereByUnidadeFederativa(unidadeFederativaId);
     }
 
@@ -44,13 +46,13 @@ public class FinderController {
         return finderService.getElementoDespesaByUnidadeGestoraId(unidadeGestoraId);
     }
 
-    @GetMapping("/despesa-simplificada")
-    public List<DespesaSimplicada> getSimplifiedReport() {
-        return finderService.getSimplifiedReport();
+    @GetMapping("/despesa-simplificada/{unidadeFederativaId}")
+    public List<DespesaSimplificada> getSimplifiedReport(@PathVariable("unidadeFederativaId") Long unidadeFederativaId) {
+        return finderService.getSimplifiedReport(unidadeFederativaId);
     }
 
-    @GetMapping("/unidade-federativa/{idUnidadeFederativa}/total-value-spent")
-    public Double getTotalValueSpentByUnidadeFederativaId(@PathVariable("idUnidadeFederativa") Long unidadeFederativaId) {
+    @GetMapping("/unidade-federativa/{unidadeFederativaId}/total-value-spent")
+    public Double getTotalValueSpentByUnidadeFederativaId(@PathVariable("unidadeFederativaId") Long unidadeFederativaId) {
         return finderService.getTotalValueSpentByUnidadeFederativaId(unidadeFederativaId);
     }
 

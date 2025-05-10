@@ -87,10 +87,10 @@ public class FinderService {
         return displayableElementDTOList;
     }
 
-    public List<DespesaSimplicada> getSimplifiedReport() {
-        List<DespesaSimplicada> despesaSimplicadaList = despesaSimplificadaRepository.findAll();
-        ordererService.orderDespesaSimplificadaListBySpending(despesaSimplicadaList);
-        return despesaSimplicadaList;
+    public List<DespesaSimplificada> getSimplifiedReport(Long unidadeFederativaId) {
+        List<DespesaSimplificada> despesaSimplificadaList = despesaSimplificadaRepository.findByUnidadeFederativa(unidadeFederativaId);
+        ordererService.orderDespesaSimplificadaListBySpending(despesaSimplificadaList);
+        return despesaSimplificadaList;
     }
 
     public Double getTotalValueSpentByUnidadeFederativaId(Long unidadeFederativaId) {
