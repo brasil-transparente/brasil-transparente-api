@@ -11,10 +11,12 @@ import java.util.Objects;
 @NoArgsConstructor
 public class OrdererService {
 
+    private static final String OUTROS = "Outros";
+
     public void orderDespesaSimplificadaListBySpending(List<DespesaSimplificada> despesaSimplicadaList) {
         despesaSimplicadaList.sort((i1, i2) -> Double.compare(i2.getTotalValue(), i1.getTotalValue()));
         for (int i = 0; i < despesaSimplicadaList.size(); i++) {
-            if (Objects.equals(despesaSimplicadaList.get(i).getName(), "Outros")) {
+            if (Objects.equals(despesaSimplicadaList.get(i).getName(), OUTROS)) {
                 DespesaSimplificada outros = despesaSimplicadaList.remove(i);
                 despesaSimplicadaList.add(outros);
                 break;

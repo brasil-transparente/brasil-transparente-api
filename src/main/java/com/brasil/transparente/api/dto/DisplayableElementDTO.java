@@ -10,13 +10,9 @@ import lombok.Setter;
 public class DisplayableElementDTO {
 
     private Long id;
-
     private String name;
-
     private double totalValueSpent;
-
     private double percentageOfTotal;
-
     private int level;
 
 }
