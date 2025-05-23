@@ -36,5 +36,8 @@ jobs:
           distribution: temurin
           java-version: 21
 
+      - name: Dar permissão de execução no gradlew
+        run: chmod +x gradlew
+
       - name: Run tests
         run: ./gradlew test
