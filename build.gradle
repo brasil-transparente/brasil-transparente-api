@@ -24,12 +24,6 @@ java {
     targetCompatibility = '21'
 }
 
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
-}
-
 repositories {
     mavenCentral()
 }
@@ -49,23 +43,16 @@ dependencies {
     // Lombok
     implementation 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+
+    // JUnit
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.12.2'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 application {
     mainClass = 'com.brasil.transparente.api.BrasilTransparenteApiApplication'
 }
 
-jar {
-    manifest {
-        attributes 'Main-Class': 'com.brasil.transparente.api.BrasilTransparenteApiApplication'
-jar
-    }
-    from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-}
-
-tasks.named('test') {
+test {
     useJUnitPlatform()
 }
