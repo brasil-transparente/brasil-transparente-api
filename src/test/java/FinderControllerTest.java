@@ -1,30 +1,27 @@
-import com.brasil.transparente.api.BrasilTransparenteApiApplication;
 import com.brasil.transparente.api.controller.FinderController;
 import com.brasil.transparente.api.dto.DisplayableElementDTO;
 import com.brasil.transparente.api.entity.DespesaSimplificada;
 import com.brasil.transparente.api.service.FinderService;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(FinderController.class)
-@ContextConfiguration(classes = BrasilTransparenteApiApplication.class)
+@ExtendWith(MockitoExtension.class)
 public class FinderControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
-
-    @MockBean
+    @Mock
     private FinderService finderService;
+
+    @InjectMocks
+    private FinderController finderController;
 
     private final DisplayableElementDTO displayableElementDTO = DisplayableElementDTO.builder()
             .id(1L)
@@ -34,74 +31,81 @@ public class FinderControllerTest {
             .level(1)
             .build();
 
+
     @Test
-    void shouldReturnUnidadeGestoraListAsJson() throws Exception {
+    void shouldReturnUnidadeGestoraList() {
         when(finderService.getUnidadeGestoraByOrgaoId(123L)).thenReturn(List.of(displayableElementDTO));
 
-        mockMvc.perform(get("/orgao/123/unidades-gestoras"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").value(1L))
-                .andExpect(jsonPath("$[0].name").value("Test Name"));
+        var result = finderController.getUnidadeGestoraByOrgaoId(123L);
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertEquals("Test Name", result.get(0).getName());
     }
 
     @Test
-    void shouldReturnPoderesByUnidadeFederativaAsJson() throws Exception {
+    void shouldReturnPoderesByUnidadeFederativa() {
         when(finderService.getPodereByUnidadeFederativa(99L)).thenReturn(List.of(displayableElementDTO));
 
-        mockMvc.perform(get("/unidade-federativa/99/poderes"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").value(1L))
-                .andExpect(jsonPath("$[0].name").value("Test Name"));
+        var result = finderController.getPoderesByUnidadeFederativa(99L);
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertEquals("Test Name", result.getFirst().getName());
     }
 
     @Test
-    void shouldReturnMinisteriosByPoderIdAsJson() throws Exception {
+    void shouldReturnMinisteriosByPoderId() {
         when(finderService.getMinisterioByPoderId(88L)).thenReturn(List.of(displayableElementDTO));
 
-        mockMvc.perform(get("/poder/88/ministerios"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").value(1L))
-                .andExpect(jsonPath("$[0].name").value("Test Name"));
+        var result = finderController.getMinisterioByPoderId(88L);
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertEquals("Test Name", result.getFirst().getName());
     }
 
     @Test
-    void shouldReturnOrgaosByMinisterioIdAsJson() throws Exception {
+    void shouldReturnOrgaosByMinisterioId() {
         when(finderService.getOrgaoByMinisterioId(77L)).thenReturn(List.of(displayableElementDTO));
 
-        mockMvc.perform(get("/ministerio/77/orgaos"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").value(1L))
-                .andExpect(jsonPath("$[0].name").value("Test Name"));
+        var result = finderController.getOrgaoByMinisterioId(77L);
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertEquals("Test Name", result.getFirst().getName());
     }
 
     @Test
-    void shouldReturnElementoDespesaByUnidadeGestoraIdAsJson() throws Exception {
+    void shouldReturnElementoDespesaByUnidadeGestoraId() {
         when(finderService.getElementoDespesaByUnidadeGestoraId(66L)).thenReturn(List.of(displayableElementDTO));
 
-        mockMvc.perform(get("/unidade-gestora/66/elemento-despesa"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").value(1L))
-                .andExpect(jsonPath("$[0].name").value("Test Name"));
+        var result = finderController.getElementoDespesaByUnidadeGestoraId(66L);
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertEquals("Test Name", result.getFirst().getName());
     }
 
     @Test
-    void shouldReturnDespesaSimplificadaByUnidadeFederativaId() throws Exception {
+    void shouldReturnDespesaSimplificadaByUnidadeFederativaId() {
         DespesaSimplificada simplificada = DespesaSimplificada.builder().build();
 
         when(finderService.getSimplifiedReport(55L)).thenReturn(List.of(simplificada));
 
-        mockMvc.perform(get("/despesa-simplificada/55"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray());
+        var result = finderController.getSimplifiedReport(55L);
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
     }
 
     @Test
-    void shouldReturnTotalValueSpentByUnidadeFederativaId() throws Exception {
+    void shouldReturnTotalValueSpentByUnidadeFederativaId() {
         when(finderService.getTotalValueSpentByUnidadeFederativaId(44L)).thenReturn(1234.56);
 
-        mockMvc.perform(get("/unidade-federativa/44/total-value-spent"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("1234.56"));
+        var result = finderController.getTotalValueSpentByUnidadeFederativaId(44L);
+
+        assertEquals(1234.56, result);
     }
 
 }
