@@ -35,7 +35,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
     // MySQL Connector
-    implementation 'com.mysql:mysql-connector-j:9.2.0'
+    implementation 'com.mysql:mysql-connector-j:9.3.0'
 
     // Google Cloud SQL
     implementation 'com.google.cloud.sql:mysql-socket-factory-connector-j-8:1.24.2'
