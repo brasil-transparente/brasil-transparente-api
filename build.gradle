@@ -38,7 +38,7 @@ dependencies {
     implementation 'com.mysql:mysql-connector-j:9.2.0'
 
     // Google Cloud SQL
-    implementation 'com.google.cloud.sql:mysql-socket-factory-connector-j-8:1.24.2'
+    implementation 'com.google.cloud.sql:mysql-socket-factory-connector-j-8:1.25.1'
 
     // Lombok
     implementation 'org.projectlombok:lombok'
