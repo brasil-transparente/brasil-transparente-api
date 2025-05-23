@@ -1,12 +1,14 @@
 package com.brasil.transparente.api.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Table(name = "despesa_simplificada")
 public class DespesaSimplificada {
 
