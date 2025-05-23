@@ -18,7 +18,10 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      - name: Build (skip tests)
+      - name: Dar permissão de execução no gradlew
+        run: chmod +x gradlew
+
+      - name: Build
         run: ./gradlew build -x test
 
   test:
