@@ -8,6 +8,7 @@ Módulo responsável por ler dados do banco de dados e retornar para a interface
 - Java 21+
 - MySQL
 - Git
+- Docker
 
 ### Passos
 1. Clone o repositório:
@@ -18,6 +19,21 @@ Módulo responsável por ler dados do banco de dados e retornar para a interface
 3. Certifique-se de que os dados do banco de dados local estão corretos no application.properties.
 4. Suba a aplicação utilizando o SpringBoot, rodando a classe BrasilTransparenteApiApplication.
 5. Se tudo estiver correto, você pode chamar os métodos no Controller e receber as respostas.
+6. Construa a imagem Docker da aplicação:
+
+```bash
+docker build -t brasil-transparente-api:1.0.0 .
+```
+Execute o container Docker:
+```bash
+docker run --name brasil-transparente-api \
+  --add-host=host.docker.internal:host-gateway \
+  -p 8080:8080 \
+  -e JDBC_URL="jdbc:mysql://host.docker.internal:3306/brasil_transparente" \
+  -e MYSQL_USER=usuario \
+  -e MYSQL_PASSWORD=senha \
+  brasil-transparente-api:1.0.0
+```
 
 📁 Link para o Drive: https://drive.google.com/drive/folders/1EvbRIqP9Eg8dZJP6RKSpf7KoippdhC3c?usp=drive_link
 
