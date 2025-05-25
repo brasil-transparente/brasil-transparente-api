@@ -1,6 +1,6 @@
 # Ignore the build directory
 build/
-
+./grandle/
 # Compiled class file
 *.class
 
