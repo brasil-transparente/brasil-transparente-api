@@ -1,4 +1,5 @@
-import com.brasil.transparente.api.controller.FinderController;
+package com.brasil.transparente.api.controller;
+
 import com.brasil.transparente.api.dto.DisplayableElementDTO;
 import com.brasil.transparente.api.entity.DespesaSimplificada;
 import com.brasil.transparente.api.service.FinderService;

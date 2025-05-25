@@ -18,7 +18,7 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      - name: Dar permissão de execução no gradlew
+      - name: Enable gradlew permission
         run: chmod +x gradlew
 
       - name: Build
@@ -36,7 +36,7 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      - name: Dar permissão de execução no gradlew
+      - name: Enable gradlew permission
         run: chmod +x gradlew
 
       - name: Run tests

@@ -1,5 +1,6 @@
+package com.brasil.transparente.api.util;
+
 import com.brasil.transparente.api.dto.DisplayableElementDTO;
-import com.brasil.transparente.api.util.MapperService;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
