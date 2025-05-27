@@ -17,22 +17,23 @@ Módulo responsável por ler dados do banco de dados e retornar para a interface
    ```
 2. Crie a estrutura do banco no MySQL importando o arquivo de Dump, localizado no Drive (link abaixo).
 3. Certifique-se de que os dados do banco de dados local estão corretos no application.properties.
-4. Suba a aplicação utilizando o SpringBoot, rodando a classe BrasilTransparenteApiApplication.
-5. Se tudo estiver correto, você pode chamar os métodos no Controller e receber as respostas.
-6. Construa a imagem Docker da aplicação:
 
+### 🚫🐋 Sem Docker:
+1. Suba a aplicação utilizando o SpringBoot, rodando a classe BrasilTransparenteApiApplication.
+2. Se tudo estiver correto, você pode chamar os métodos no Controller e receber as respostas.
+ 
+### ✅🐋 Com Docker:
+1. Altere seu localhost na JDBC query para `host.docker.internal`  
+   Exemplo:
+   ```properties
+   spring.datasource.url=jdbc:mysql://host.docker.internal:3306/gastos
+2. Construa a imagem Docker da aplicação:
 ```bash
-docker build -t brasil-transparente-api:1.0.0 .
+   docker build -t brasil-transparente-api .
 ```
-Execute o container Docker:
+3. Execute o container Docker :
 ```bash
-docker run --name brasil-transparente-api \
-  --add-host=host.docker.internal:host-gateway \
-  -p 8080:8080 \
-  -e JDBC_URL="jdbc:mysql://host.docker.internal:3306/brasil_transparente" \
-  -e MYSQL_USER=usuario \
-  -e MYSQL_PASSWORD=senha \
-  brasil-transparente-api:1.0.0
+   docker run -p 8080:8080 brasil-transparente-api:latest
 ```
 
 📁 Link para o Drive: https://drive.google.com/drive/folders/1EvbRIqP9Eg8dZJP6RKSpf7KoippdhC3c?usp=drive_link
