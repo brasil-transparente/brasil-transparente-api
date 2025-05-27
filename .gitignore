@@ -1,6 +1,5 @@
 # Ignore the build directory
 build/
-
 # Compiled class file
 *.class
 
