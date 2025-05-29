@@ -1,5 +1,9 @@
 # Ignore the build directory
 build/
+
+# Ignore gradle directory
+.gradle/
+
 # Compiled class file
 *.class
 
