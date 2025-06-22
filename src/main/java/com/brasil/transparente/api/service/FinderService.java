@@ -5,34 +5,26 @@ import com.brasil.transparente.api.entity.*;
 import com.brasil.transparente.api.repository.*;
 import com.brasil.transparente.api.util.MapperService;
 import com.brasil.transparente.api.util.OrdererService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
 
+@RequiredArgsConstructor
 @Slf4j
 @Service
 public class FinderService {
 
-    @Autowired
-    private PoderRepository poderRepository;
-    @Autowired
-    private MinisterioRepository ministerioRepository;
-    @Autowired
-    private OrgaoRepository orgaoRepository;
-    @Autowired
-    private UnidadeGestoraRepository unidadeGestoraRepository;
-    @Autowired
-    private ElementoDespesaRepository elementoDespesaRepository;
-    @Autowired
-    private UnidadeFederativaRepository unidadeFederativaRepository;
-    @Autowired
-    private DespesaSimplificadaRepository despesaSimplificadaRepository;
-    @Autowired
-    private OrdererService ordererService;
-    @Autowired
-    private MapperService mapperService;
+    private final PoderRepository poderRepository;
+    private final MinisterioRepository ministerioRepository;
+    private final OrgaoRepository orgaoRepository;
+    private final UnidadeGestoraRepository unidadeGestoraRepository;
+    private final ElementoDespesaRepository elementoDespesaRepository;
+    private final UnidadeFederativaRepository unidadeFederativaRepository;
+    private final DespesaSimplificadaRepository despesaSimplificadaRepository;
+    private final OrdererService ordererService;
+    private final MapperService mapperService;
 
     private static final int PODER_LEVEL = 0;
     private static final int MINISTERIO_LEVEL = 1;
