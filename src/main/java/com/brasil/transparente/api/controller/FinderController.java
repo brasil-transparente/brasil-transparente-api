@@ -6,6 +6,7 @@ import com.brasil.transparente.api.service.FinderService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +15,11 @@ import java.util.List;
 
 import static org.springframework.http.MediaType.*;
 
+@CrossOrigin(origins = {
+        "https://brasil-transparente.web.app",
+        "https://brasil-transparente.firebaseapp.com/",
+        "https://brasiltransparente.digital"
+})
 @OpenAPIDefinition(info = @Info(title = "API REST Brasil Transparente", version = "1.0.0"))
 @Tag(name = "Busca")
 @RestController

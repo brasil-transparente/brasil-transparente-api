@@ -6,6 +6,7 @@ build/
 
 # Compiled class file
 *.class
+*cache.properties
 
 # Package Files #
 *.jar
