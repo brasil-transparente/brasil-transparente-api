@@ -44,16 +44,6 @@ public class FinderService {
 
     public List<DisplayableElementDTO> getMinisterioByPoderId(Long poderId) {
         List<Ministerio> ministerioList = ministerioRepository.findByPoderPoderId(poderId);
-
-        if (ministerioList.size() == 1) {
-            List<DisplayableElementDTO> orgaoList = getOrgaoByMinisterioId(ministerioList.getFirst().getMinisterioId());
-            if (orgaoList.size() == 1 && Objects.equals(orgaoList.getFirst().getName(), ministerioList.getFirst().getNameMinisterio())) {
-                return getOrgaoByMinisterioId(ministerioList.getFirst().getMinisterioId());
-            } else {
-                return orgaoList;
-            }
-        }
-
         List<DisplayableElementDTO> displayableElementDTOList = new ArrayList<>();
         for (Ministerio ministerio : ministerioList) {
             displayableElementDTOList.add(mapperService.mapToDisplayableElementDto(ministerio.getMinisterioId(), ministerio.getNameMinisterio(),
