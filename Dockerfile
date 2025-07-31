@@ -6,7 +6,7 @@ COPY . .
 
 RUN ./gradlew clean build -x test
 
-FROM eclipse-temurin:21-jre
+FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
 
