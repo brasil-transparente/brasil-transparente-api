@@ -11,9 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
 
-@RequiredArgsConstructor
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class FinderService {
 
     private final PoderRepository poderRepository;
@@ -36,8 +36,7 @@ public class FinderService {
         List<Poder> poderList = poderRepository.findByUnidadeFederativaUnidadeFederativaId(unidadeFederativaId);
         List<DisplayableElementDTO> displayableElementDTOList = new ArrayList<>();
         for (Poder poder : poderList) {
-            displayableElementDTOList.add(mapperService.mapToDisplayableElementDto(poder.getPoderId(), poder.getNamePoder(),
-                    poder.getTotalValueSpent(), poder.getPercentageOfTotal(), PODER_LEVEL));
+            displayableElementDTOList.add(mapperService.toDisplayableElementDTO(poder, PODER_LEVEL));
         }
         return displayableElementDTOList;
     }
@@ -46,8 +45,7 @@ public class FinderService {
         List<Ministerio> ministerioList = ministerioRepository.findByPoderPoderId(poderId);
         List<DisplayableElementDTO> displayableElementDTOList = new ArrayList<>();
         for (Ministerio ministerio : ministerioList) {
-            displayableElementDTOList.add(mapperService.mapToDisplayableElementDto(ministerio.getMinisterioId(), ministerio.getNameMinisterio(),
-                    ministerio.getTotalValueSpent(), ministerio.getPercentageOfTotal(), MINISTERIO_LEVEL));
+            displayableElementDTOList.add(mapperService.toDisplayableElementDTO(ministerio, MINISTERIO_LEVEL));
         }
         return displayableElementDTOList;
     }
@@ -66,8 +64,7 @@ public class FinderService {
 
         List<DisplayableElementDTO> displayableElementDTOList = new ArrayList<>();
         for (Orgao orgao : orgaoList) {
-            displayableElementDTOList.add(mapperService.mapToDisplayableElementDto(orgao.getOrgaoId(), orgao.getNameOrgao(),
-                    orgao.getTotalValueSpent(), orgao.getPercentageOfTotal(), ORGAO_LEVEL));
+            displayableElementDTOList.add(mapperService.toDisplayableElementDTO(orgao, ORGAO_LEVEL));
         }
         return displayableElementDTOList;
     }
@@ -84,8 +81,7 @@ public class FinderService {
 
         List<DisplayableElementDTO> displayableElementDTOList = new ArrayList<>();
         for (UnidadeGestora unidadeGestora : unidadeGestoraList) {
-            displayableElementDTOList.add(mapperService.mapToDisplayableElementDto(unidadeGestora.getUnidadeGestoraId(), unidadeGestora.getNameUnidadeGestora(),
-                    unidadeGestora.getTotalValueSpent(), unidadeGestora.getPercentageOfTotal(), UNIDADE_GESTORA_LEVEL));
+            displayableElementDTOList.add(mapperService.toDisplayableElementDTO(unidadeGestora, UNIDADE_GESTORA_LEVEL));
         }
         return displayableElementDTOList;
     }
@@ -94,8 +90,7 @@ public class FinderService {
         List<ElementoDespesa> elementoDespesaList = elementoDespesaRepository.findByUnidadeGestoraUnidadeGestoraId(unidadeGestoraId);
         List<DisplayableElementDTO> displayableElementDTOList = new ArrayList<>();
         for (ElementoDespesa elementoDespesa : elementoDespesaList) {
-            displayableElementDTOList.add(mapperService.mapToDisplayableElementDto(elementoDespesa.getElementoDespesaId(), elementoDespesa.getNameElementoDespesa(),
-                    elementoDespesa.getTotalValueSpent(), elementoDespesa.getPercentageOfTotal(), ELEMENTO_DESPESA_LEVEL));
+            displayableElementDTOList.add(mapperService.toDisplayableElementDTO(elementoDespesa, ELEMENTO_DESPESA_LEVEL));
         }
         return displayableElementDTOList;
     }
@@ -109,5 +104,4 @@ public class FinderService {
     public Double getTotalValueSpentByUnidadeFederativaId(Long unidadeFederativaId) {
         return unidadeFederativaRepository.findTotalValueSpentByUnidadeFederativaId(unidadeFederativaId);
     }
-
 }
