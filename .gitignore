@@ -18,6 +18,8 @@ build/
 *.tar.gz
 *.rar
 *.bin
+*.env
+.env
 
 # IntelliJ IDEA
 .idea/

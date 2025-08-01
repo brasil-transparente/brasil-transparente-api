@@ -1,30 +1,42 @@
 package com.brasil.transparente.api.util;
 
-import com.brasil.transparente.api.dto.DisplayableElementDTO;
-import org.junit.jupiter.api.Test;
-
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.brasil.transparente.api.dto.DisplayableElementDTO;
+import com.brasil.transparente.api.entity.Ministerio;
+import com.brasil.transparente.api.entity.Poder;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.mapstruct.factory.Mappers;
+
 public class MapperServiceTest {
+
+    private final MapperService mapperService = Mappers.getMapper(MapperService.class);
 
     @Test
     void testMappingToDisplayableElementoDto() {
-        Long id = 42L;
-        String name = "Ministério da Defesa";
-        double totalValueSpent = 500000;
-        double percentageOfTotal = 12.34;
+
+        Ministerio ministerio = Ministerio.builder()
+            .ministerioId(42L)
+            .nameMinisterio("Ministério da Defesa")
+            .totalValueSpent(500000)
+            .percentageOfTotal(12.34)
+            .build();
+
         int levelOfElement = 3;
 
-        MapperService mapper = new MapperService();
-        DisplayableElementDTO dto = mapper.mapToDisplayableElementDto(id, name, totalValueSpent, percentageOfTotal, levelOfElement);
+        DisplayableElementDTO dto = mapperService.toDisplayableElementDTO(ministerio, levelOfElement);
 
-        assertNotNull(dto);
-        assertEquals(id, dto.getId());
-        assertEquals(name, dto.getName());
-        assertEquals(totalValueSpent, dto.getTotalValueSpent());
-        assertEquals(percentageOfTotal, dto.getPercentageOfTotal());
-        assertEquals(levelOfElement, dto.getLevel());
+        Assertions.assertThat(dto)
+            .hasNoNullFieldsOrProperties()
+            .satisfies(d -> {
+                assertThat(d.getId()).isEqualTo(ministerio.getMinisterioId());
+                assertThat(d.getName()).isEqualTo(ministerio.getNameMinisterio());
+                assertThat(d.getTotalValueSpent()).isEqualTo(ministerio.getTotalValueSpent());
+                assertThat(d.getPercentageOfTotal()).isEqualTo(ministerio.getPercentageOfTotal());
+                assertThat(d.getLevel()).isEqualTo(levelOfElement);
+            });
     }
-
 }

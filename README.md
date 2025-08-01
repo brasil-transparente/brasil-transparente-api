@@ -29,7 +29,7 @@ Módulo responsável por ler dados do banco de dados e retornar para a interface
    spring.datasource.url=jdbc:mysql://host.docker.internal:3306/gastos
 2. Construa a imagem Docker da aplicação:
 ```bash
-   docker build -t brasil-transparente-api .
+   ./gradlew jibDockerBuild
 ```
 3. Execute o container Docker :
 ```bash

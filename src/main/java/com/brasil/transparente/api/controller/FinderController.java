@@ -6,6 +6,7 @@ import com.brasil.transparente.api.service.FinderService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,13 +24,10 @@ import static org.springframework.http.MediaType.*;
 @OpenAPIDefinition(info = @Info(title = "API REST Brasil Transparente", version = "1.0.0"))
 @Tag(name = "Busca")
 @RestController
+@RequiredArgsConstructor
 public class FinderController {
 
     private final FinderService finderService;
-
-    public FinderController(FinderService finderService) {
-        this.finderService = finderService;
-    }
 
     @GetMapping(value = "/unidade-federativa/{unidadeFederativaId}/poderes", produces = APPLICATION_JSON_VALUE)
     public List<DisplayableElementDTO> getPoderesByUnidadeFederativa(@PathVariable("unidadeFederativaId") Long unidadeFederativaId) {
@@ -65,5 +63,4 @@ public class FinderController {
     public Double getTotalValueSpentByUnidadeFederativaId(@PathVariable("unidadeFederativaId") Long unidadeFederativaId) {
         return finderService.getTotalValueSpentByUnidadeFederativaId(unidadeFederativaId);
     }
-
 }

@@ -5,6 +5,17 @@ plugins {
     id 'application'
     id 'org.springframework.boot' version '3.5.4'
     id 'io.spring.dependency-management' version '1.1.7'
+    id 'com.google.cloud.tools.jib' version '3.4.5'
+}
+
+jib {
+    to {
+        image = 'brasil-transparente-api:1.0'
+    }
+    container {
+        mainClass = 'com.brasil.transparente.api.BrasilTransparenteApiApplication'
+        ports = ['8080']
+    }
 }
 
 group = 'com.brasil.transparente.api'
@@ -49,6 +60,10 @@ dependencies {
 
     // Swagger
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9'
+
+    // MapStruct
+    implementation 'org.mapstruct:mapstruct:1.6.3'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
 }
 
 application {

@@ -14,5 +14,4 @@ public class DisplayableElementDTO {
     private double totalValueSpent;
     private double percentageOfTotal;
     private int level;
-
 }
