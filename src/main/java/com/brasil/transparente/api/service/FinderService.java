@@ -54,6 +54,16 @@ public class FinderService {
 
     public List<DisplayableElementDTO> getOrgaoByMinisterioId(Long ministerioId) {
         List<Orgao> orgaoList = orgaoRepository.findByMinisterioMinisterioId(ministerioId);
+
+        if (orgaoList.size() == 1) {
+            List<DisplayableElementDTO> unidadeGestoraList = getUnidadeGestoraByOrgaoId(orgaoList.getFirst().getOrgaoId());
+            if (unidadeGestoraList.size() == 1 && Objects.equals(orgaoList.getFirst().getNameOrgao(), unidadeGestoraList.getFirst().getName())) {
+                return getElementoDespesaByUnidadeGestoraId(unidadeGestoraList.getFirst().getId());
+            } else {
+                return unidadeGestoraList;
+            }
+        }
+
         List<DisplayableElementDTO> displayableElementDTOList = new ArrayList<>();
         for (Orgao orgao : orgaoList) {
             displayableElementDTOList.add(mapperService.mapToDisplayableElementDto(orgao.getOrgaoId(), orgao.getNameOrgao(),
@@ -64,6 +74,14 @@ public class FinderService {
 
     public List<DisplayableElementDTO> getUnidadeGestoraByOrgaoId(Long orgaoId) {
         List<UnidadeGestora> unidadeGestoraList = unidadeGestoraRepository.findByOrgaoOrgaoId(orgaoId);
+
+        if (unidadeGestoraList.size() == 1) {
+            Orgao orgao = orgaoRepository.getReferenceById(orgaoId.toString());
+            if (Objects.equals(orgao.getNameOrgao(), unidadeGestoraList.getFirst().getNameUnidadeGestora())) {
+                return getElementoDespesaByUnidadeGestoraId(unidadeGestoraList.getFirst().getUnidadeGestoraId());
+            }
+        }
+
         List<DisplayableElementDTO> displayableElementDTOList = new ArrayList<>();
         for (UnidadeGestora unidadeGestora : unidadeGestoraList) {
             displayableElementDTOList.add(mapperService.mapToDisplayableElementDto(unidadeGestora.getUnidadeGestoraId(), unidadeGestora.getNameUnidadeGestora(),
