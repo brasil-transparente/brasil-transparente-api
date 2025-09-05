@@ -1,15 +1,13 @@
 package com.brasil.transparente.api.controller;
 
 import com.brasil.transparente.api.dto.DisplayableElementDTO;
+import com.brasil.transparente.api.dto.PaginatedResponse;
 import com.brasil.transparente.api.entity.*;
 import com.brasil.transparente.api.service.FinderService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,6 +32,18 @@ public class FinderController {
     @GetMapping(value = "/unidade-federativa/{unidadeFederativaId}/poderes", produces = APPLICATION_JSON_VALUE)
     public List<DisplayableElementDTO> getPoderesByUnidadeFederativa(@PathVariable("unidadeFederativaId") Long unidadeFederativaId) {
         return finderService.getPodereByUnidadeFederativa(unidadeFederativaId);
+    }
+
+    @GetMapping(value = "/unidade-federativa/{unidadeFederativaId}/renuncias-fiscais", produces = APPLICATION_JSON_VALUE)
+    public PaginatedResponse<RenunciaFiscal> getRenunciasFiscaisByUnidadeFederativa(@PathVariable("unidadeFederativaId") Long unidadeFederativaId,
+                                                                                    @RequestParam(defaultValue = "0") int page,
+                                                                                    @RequestParam(defaultValue = "30") int size){
+        return finderService.getRenunciaFiscalByUnidadeFederativaId(unidadeFederativaId, page, size);
+    }
+
+    @GetMapping(value = "/unidade-federativa/{unidadeFederativaId}/renuncias-fiscais/total", produces = APPLICATION_JSON_VALUE)
+    public ValorTotal getTotaisRenunciasFiscaisByUnidadeFederativa(@PathVariable("unidadeFederativaId") Long unidadeFederativaId){
+        return finderService.getRenunciaFiscalTotalByUnidadeFederativaId(unidadeFederativaId);
     }
 
     @GetMapping(value = "/poder/{idPoder}/ministerios", produces = APPLICATION_JSON_VALUE)
