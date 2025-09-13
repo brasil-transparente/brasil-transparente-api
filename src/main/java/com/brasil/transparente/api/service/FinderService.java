@@ -1,11 +1,15 @@
 package com.brasil.transparente.api.service;
 
 import com.brasil.transparente.api.dto.DisplayableElementDTO;
+import com.brasil.transparente.api.dto.PaginatedResponse;
 import com.brasil.transparente.api.entity.*;
 import com.brasil.transparente.api.repository.*;
 import com.brasil.transparente.api.util.MapperService;
 import com.brasil.transparente.api.util.OrdererService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,6 +27,7 @@ public class FinderService {
     private final ElementoDespesaRepository elementoDespesaRepository;
     private final UnidadeFederativaRepository unidadeFederativaRepository;
     private final DespesaSimplificadaRepository despesaSimplificadaRepository;
+    private final RenunciaFiscalRepository renunciaFiscalRepository;
     private final OrdererService ordererService;
     private final MapperService mapperService;
 
@@ -108,6 +113,23 @@ public class FinderService {
 
     public Double getTotalValueSpentByUnidadeFederativaId(Long unidadeFederativaId) {
         return unidadeFederativaRepository.findTotalValueSpentByUnidadeFederativaId(unidadeFederativaId);
+    }
+
+    public PaginatedResponse<RenunciaFiscal> getRenunciaFiscalByUnidadeFederativaId(Long unidadeFederativaId, int page, int size){
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<RenunciaFiscal> pageRenuncias = renunciaFiscalRepository.findByUnidadeFederativa(unidadeFederativaId, pageable);
+
+        return new PaginatedResponse<>(
+                pageRenuncias.getContent(),
+                pageRenuncias.getTotalElements(),
+                pageRenuncias.getTotalPages(),
+                pageRenuncias.getNumber()
+        );
+    }
+
+    public ValorTotal getRenunciaFiscalTotalByUnidadeFederativaId(Long unidadeFederativaId){
+        return renunciaFiscalRepository.findTotalByUnidadeFederativa(unidadeFederativaId);
     }
 
 }
