@@ -57,5 +57,6 @@ jobs:
           gcloud run deploy brasil-transparente-api-test \
             --image gcr.io/${{ secrets.GCP_PROJECT }}/brasil-transparente-api:${{ github.sha }} \
             --region="${{ secrets.REGION }}" \
-            --platform=managed \
-            --allow-unauthenticated
+            --platform managed \
+            --allow-unauthenticated \
+            --set-secrets DB_JDBC_URL=DB_JDBC_URL:latest,DB_USER=DB_USER:latest,DB_PASSWORD=DB_PASSWORD:latest
