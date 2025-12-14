@@ -1,4 +1,4 @@
-name: Deploy API to Test Environment
+name: CD Pipeline
 
 on:
   workflow_dispatch:
