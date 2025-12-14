@@ -24,6 +24,10 @@ java {
     targetCompatibility = '21'
 }
 
+jar {
+    enabled = false
+}
+
 repositories {
     mavenCentral()
 }
@@ -37,14 +41,14 @@ dependencies {
     implementation 'com.mysql:mysql-connector-j:9.5.0'
 
     // Google Cloud SQL
-    implementation 'com.google.cloud.sql:mysql-socket-factory-connector-j-8:1.26.1'
+    implementation 'com.google.cloud.sql:mysql-socket-factory-connector-j-8:1.27.0'
 
     // Lombok
     implementation 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
     // JUnit
-    testImplementation 'org.junit.jupiter:junit-jupiter:6.0.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter:6.0.1'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     // Swagger
