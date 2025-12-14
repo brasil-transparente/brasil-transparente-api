@@ -24,6 +24,10 @@ java {
     targetCompatibility = '21'
 }
 
+jar {
+    enabled = false
+}
+
 repositories {
     mavenCentral()
 }
