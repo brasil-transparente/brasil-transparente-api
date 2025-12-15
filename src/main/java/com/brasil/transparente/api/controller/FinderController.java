@@ -16,7 +16,8 @@ import static org.springframework.http.MediaType.*;
 
 @CrossOrigin(origins = {
         "https://brasiltransparente.digital",
-        "https://brasil-transparente-frontend-492194254445.us-central1.run.app/"
+        "https://brasil-transparente-frontend-492194254445.us-central1.run.app",
+        "https://brasil-transparente-frontend-test-492194254445.us-central1.run.app"
 })
 @OpenAPIDefinition(info = @Info(title = "API REST Brasil Transparente", version = "1.0.0"))
 @Tag(name = "Busca")
