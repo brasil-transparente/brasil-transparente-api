@@ -1,4 +1,4 @@
-name: Deploy Pipeline
+name: Deploy Pipeline - Test
 
 on:
   workflow_dispatch:
