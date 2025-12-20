@@ -20,8 +20,9 @@ version = getVersionName()
 println "🛠️ Building version: ${project.version}"
 
 java {
-    sourceCompatibility = '21'
-    targetCompatibility = '21'
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
 }
 
 jar {
@@ -41,7 +42,7 @@ dependencies {
     implementation 'com.mysql:mysql-connector-j:9.5.0'
 
     // Google Cloud SQL
-    implementation 'com.google.cloud.sql:mysql-socket-factory-connector-j-8:1.27.0'
+    implementation 'com.google.cloud.sql:mysql-socket-factory-connector-j-8:1.27.1'
 
     // Lombok
     implementation 'org.projectlombok:lombok'
