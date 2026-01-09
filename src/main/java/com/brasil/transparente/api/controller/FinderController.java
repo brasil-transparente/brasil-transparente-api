@@ -1,6 +1,7 @@
 package com.brasil.transparente.api.controller;
 
 import com.brasil.transparente.api.dto.DisplayableElementDTO;
+import com.brasil.transparente.api.dto.ReceitaResponseDTO;
 import com.brasil.transparente.api.entity.DespesaSimplificada;
 import com.brasil.transparente.api.service.FinderService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -87,5 +88,11 @@ public class FinderController {
     @GetMapping(value = "/unidade-federativa/{unidadeFederativaId}/total-value-spent", produces = APPLICATION_JSON_VALUE)
     public Double getTotalValueSpentByUnidadeFederativaId(@PathVariable("unidadeFederativaId") Long unidadeFederativaId) {
         return finderService.getTotalValueSpentByUnidadeFederativaId(unidadeFederativaId);
+    }
+
+    @Operation(summary = "Listar Receitas", description = "Retorna a lista de receitas públicas da União/Estados para fins de comparação.")
+    @GetMapping(value = "/receita", produces = APPLICATION_JSON_VALUE)
+    public ReceitaResponseDTO getReceitaList() {
+        return finderService.getReceitaList();
     }
 }

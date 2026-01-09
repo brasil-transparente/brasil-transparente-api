@@ -1,6 +1,7 @@
 package com.brasil.transparente.api.service;
 
 import com.brasil.transparente.api.dto.DisplayableElementDTO;
+import com.brasil.transparente.api.dto.ReceitaResponseDTO;
 import com.brasil.transparente.api.entity.*;
 import com.brasil.transparente.api.repository.*;
 import com.brasil.transparente.api.util.MapperService;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -24,6 +26,7 @@ public class FinderService {
     private final ElementoDespesaRepository elementoDespesaRepository;
     private final UnidadeFederativaRepository unidadeFederativaRepository;
     private final DespesaSimplificadaRepository despesaSimplificadaRepository;
+    private final ReceitaRepository receitaRepository;
     private final OrdererService ordererService;
     private final MapperService mapperService;
 
@@ -109,6 +112,28 @@ public class FinderService {
 
     public Double getTotalValueSpentByUnidadeFederativaId(Long unidadeFederativaId) {
         return unidadeFederativaRepository.findTotalValueSpentByUnidadeFederativaId(unidadeFederativaId);
+    }
+
+    public ReceitaResponseDTO getReceitaList() {
+        List<Receita> listaReceita = receitaRepository.findAllByOrderByTotalValueSpentDesc();
+
+        double totalSum = listaReceita.stream()
+                .mapToDouble(Receita::getTotalValueSpent)
+                .sum();
+
+        List<DisplayableElementDTO> displayableElementDTOList = listaReceita.stream()
+                .map(receita -> mapperService.mapToDisplayableElementDto(
+                        receita.getReceitaId(),
+                        receita.getNameReceita(),
+                        receita.getTotalValueSpent(),
+                        receita.getPercentageOfTotal(),
+                        0))
+                .collect(Collectors.toList());
+
+        return ReceitaResponseDTO.builder()
+                .valorTotal(totalSum)
+                .receitas(displayableElementDTOList)
+                .build();
     }
 
 }
