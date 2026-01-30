@@ -43,11 +43,11 @@ public class FinderController {
                     + "For Brazilian Federal Government analysis, unidadeFederativaId MUST be 1. All hierarchical exploration MUST start from this endpoint."
     )
     @GetMapping(value = "/unidade-federativa/{unidadeFederativaId}/poderes", produces = APPLICATION_JSON_VALUE)
-    public List<DisplayableElementDTO> getPowersByFederativeUnit(
+    public List<DisplayableElementDTO> getPoderesByUnidadeFederativa(
             @Parameter(description = "Federative Unit identifier. Use 1 for the Brazilian Federal Government. This value is the mandatory starting point for exploration.", required = true)
             @PathVariable Long unidadeFederativaId
     ) {
-        return finderService.getPodereByUnidadeFederativa(unidadeFederativaId);
+        return finderService.getPoderesByUnidadeFederativa(unidadeFederativaId);
     }
 
     @Tag(name = "Exploration")
@@ -56,7 +56,7 @@ public class FinderController {
             description = "Returns ministries or courts associated with a specific Power. This endpoint MUST only be called after obtaining a valid Power ID from /unidade-federativa/{id}/poderes. IDs from any other hierarchy level are INVALID."
     )
     @GetMapping(value = "/poder/{idPoder}/ministerios", produces = APPLICATION_JSON_VALUE)
-    public List<DisplayableElementDTO> getMinistriesByPower(
+    public List<DisplayableElementDTO> getMinisterioByPoderId(
             @Parameter(description = "Power identifier obtained EXCLUSIVELY from the powers endpoint.", required = true)
             @PathVariable Long idPoder
     ) {
@@ -69,7 +69,7 @@ public class FinderController {
             description = "Returns agencies associated with a specific Ministry. This endpoint MUST only be called after obtaining a Ministry ID from /poder/{idPoder}/ministerios. Skipping hierarchy levels or reusing IDs from other contexts is NOT allowed."
     )
     @GetMapping(value = "/ministerio/{idMinisterio}/orgaos", produces = APPLICATION_JSON_VALUE)
-    public List<DisplayableElementDTO> getAgenciesByMinistry(
+    public List<DisplayableElementDTO> getOrgaoByMinisterioId(
             @Parameter(description = "Ministry identifier obtained EXCLUSIVELY from the ministries endpoint.", required = true)
             @PathVariable Long idMinisterio
     ) {
@@ -82,7 +82,7 @@ public class FinderController {
             description = "Returns Management Units responsible for budget execution within a specific Agency. This endpoint MUST only be called after obtaining an Agency ID from /ministerio/{idMinisterio}/orgaos."
     )
     @GetMapping(value = "/orgao/{idOrgao}/unidades-gestoras", produces = APPLICATION_JSON_VALUE)
-    public List<DisplayableElementDTO> getManagementUnitsByAgency(
+    public List<DisplayableElementDTO> getUnidadeGestoraByOrgaoId(
             @Parameter(description = "Agency identifier obtained EXCLUSIVELY from the agencies endpoint.", required = true)
             @PathVariable Long idOrgao
     ) {
@@ -97,7 +97,7 @@ public class FinderController {
                     + "No further drill-down is possible beyond this level."
     )
     @GetMapping(value = "/unidade-gestora/{idUnidadeGestora}/elemento-despesa", produces = APPLICATION_JSON_VALUE)
-    public List<DisplayableElementDTO> getExpenseElementsByManagementUnit(
+    public List<DisplayableElementDTO> getElementoDespesaByUnidadeGestoraId(
             @Parameter(description = "Management Unit identifier obtained EXCLUSIVELY from the management units endpoint.", required = true)
             @PathVariable Long idUnidadeGestora
     ) {
@@ -128,7 +128,7 @@ public class FinderController {
             description = "Total amount of effectively paid public spending for a federative unit. This value represents a cash-based annual snapshot and MUST NOT be decomposed using Exploration endpoints."
     )
     @GetMapping(value = "/unidade-federativa/{unidadeFederativaId}/total-value-spent", produces = APPLICATION_JSON_VALUE)
-    public Double getTotalValueSpentByFederativeUnit(
+    public Double getTotalValueSpentByUnidadeFederativaId(
             @Parameter(description = "Federative Unit identifier. Use 1 for the Brazilian Federal Government.", required = true)
             @PathVariable Long unidadeFederativaId
     ) {

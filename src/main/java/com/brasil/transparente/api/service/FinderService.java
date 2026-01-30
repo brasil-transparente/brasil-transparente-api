@@ -33,7 +33,7 @@ public class FinderService {
     private static final int UNIDADE_GESTORA_LEVEL = 3;
     private static final int ELEMENTO_DESPESA_LEVEL = 4;
 
-    public List<DisplayableElementDTO> getPodereByUnidadeFederativa(Long unidadeFederativaId) {
+    public List<DisplayableElementDTO> getPoderesByUnidadeFederativa(Long unidadeFederativaId) {
         List<Poder> poderList = poderRepository.findByUnidadeFederativaUnidadeFederativaId(unidadeFederativaId);
         List<DisplayableElementDTO> displayableElementDTOList = new ArrayList<>();
         for (Poder poder : poderList) {
