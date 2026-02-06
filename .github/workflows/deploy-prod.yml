@@ -1,0 +1,62 @@
+name: Deploy Pipeline - Prod
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "Commit SHA or branch to deploy (default: main)"
+        required: false
+        default: "main"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: prod
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.ref }}
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "21"
+
+      - name: Build application
+        run: ./gradlew clean build -x test
+
+      - name: Install Google Cloud SDK
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y apt-transport-https ca-certificates gnupg
+          echo "deb https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee /etc/apt/sources.list.d/google-cloud-sdk.list
+          curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+          sudo apt-get update -y
+          sudo apt-get install -y google-cloud-sdk
+
+      - name: Activate service account
+        env:
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+        run: |
+          echo "${GCP_SA_KEY}" > /tmp/key.json
+          gcloud auth activate-service-account \
+            --key-file=/tmp/key.json \
+            --project="${{ secrets.GCP_PROJECT }}"
+
+      - name: Build Docker image
+        run: |
+          gcloud builds submit \
+            --project="${{ secrets.GCP_PROJECT }}" \
+            --tag gcr.io/${{ secrets.GCP_PROJECT }}/brasil-transparente-api:${{ github.sha }}
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy brasil-transparente-api \
+            --image gcr.io/${{ secrets.GCP_PROJECT }}/brasil-transparente-api:${{ github.sha }} \
+            --region="${{ secrets.REGION }}" \
+            --platform managed \
+            --allow-unauthenticated \
+            --set-secrets DB_JDBC_URL=DB_JDBC_URL:latest,DB_USER=DB_USER:latest,DB_PASSWORD=DB_PASSWORD:latest
