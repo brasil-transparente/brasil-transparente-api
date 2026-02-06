@@ -20,8 +20,9 @@ version = getVersionName()
 println "🛠️ Building version: ${project.version}"
 
 java {
-    sourceCompatibility = '21'
-    targetCompatibility = '21'
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
 }
 
 jar {
@@ -34,14 +35,14 @@ repositories {
 
 dependencies {
     // Spring Boot
-    implementation 'org.springframework.boot:spring-boot-starter-webflux'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
 
     // MySQL Connector
     implementation 'com.mysql:mysql-connector-j:9.5.0'
 
     // Google Cloud SQL
-    implementation 'com.google.cloud.sql:mysql-socket-factory-connector-j-8:1.27.0'
+    implementation 'com.google.cloud.sql:mysql-socket-factory-connector-j-8:1.27.1'
 
     // Lombok
     implementation 'org.projectlombok:lombok'
@@ -53,6 +54,7 @@ dependencies {
 
     // Swagger
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.13'
+
 }
 
 application {

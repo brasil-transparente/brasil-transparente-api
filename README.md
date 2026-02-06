@@ -5,7 +5,7 @@ Módulo responsável por ler dados do banco de dados e retornar para a interface
 ## 📦 Instalação e Configuração
 
 ### Pré-requisitos
-- Java 21+
+- Java 25
 - MySQL
 - Git
 - Docker
