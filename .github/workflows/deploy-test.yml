@@ -59,4 +59,6 @@ jobs:
             --region="${{ secrets.REGION }}" \
             --platform managed \
             --allow-unauthenticated \
+            --max-instances=1 \
+            --concurrency=80 \
             --set-secrets DB_JDBC_URL=DB_JDBC_URL:latest,DB_USER=DB_USER:latest,DB_PASSWORD=DB_PASSWORD:latest
