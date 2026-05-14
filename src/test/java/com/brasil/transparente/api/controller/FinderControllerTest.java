@@ -46,7 +46,7 @@ public class FinderControllerTest {
 
     @Test
     void shouldReturnPoderesByUnidadeFederativa() {
-        when(finderService.getPodereByUnidadeFederativa(99L)).thenReturn(List.of(displayableElementDTO));
+        when(finderService.getPoderesByUnidadeFederativa(99L)).thenReturn(List.of(displayableElementDTO));
 
         var result = finderController.getPoderesByUnidadeFederativa(99L);
 
