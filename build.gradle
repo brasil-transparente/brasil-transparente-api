@@ -49,7 +49,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
 
     // JUnit
-    testImplementation 'org.junit.jupiter:junit-jupiter:6.0.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter:6.0.3'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     // Swagger
