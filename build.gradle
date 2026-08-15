@@ -3,8 +3,13 @@ import java.text.SimpleDateFormat
 plugins {
     id 'java'
     id 'application'
+    id 'jacoco'
     id 'org.springframework.boot' version '3.5.7'
     id 'io.spring.dependency-management' version '1.1.7'
+    id 'org.jetbrains.kotlin.jvm' version '2.3.21'
+    id 'org.jetbrains.kotlin.plugin.spring' version '2.3.21'
+    id 'org.jetbrains.kotlin.plugin.jpa' version '2.3.21'
+    id "org.jetbrains.kotlin.plugin.lombok" version '2.3.21'
 }
 
 group = 'com.brasil.transparente.api'
@@ -20,9 +25,12 @@ version = getVersionName()
 println "🛠️ Building version: ${project.version}"
 
 java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
-    }
+    sourceCompatibility = '25'
+    targetCompatibility = '25'
+}
+
+kotlin {
+    jvmToolchain(25)
 }
 
 jar {
@@ -37,6 +45,10 @@ dependencies {
     // Spring Boot
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // Kotlin
+    implementation 'org.jetbrains.kotlin:kotlin-reflect'
+    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
 
     // MySQL Connector
     implementation 'com.mysql:mysql-connector-j:9.6.0'
@@ -54,6 +66,7 @@ dependencies {
 
     // Swagger
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.13'
+    testImplementation 'org.jetbrains.kotlin:kotlin-test'
 
 }
 
@@ -63,4 +76,61 @@ application {
 
 test {
     useJUnitPlatform()
+    finalizedBy jacocoTestReport
 }
+
+jacoco {
+    toolVersion = '0.8.15'
+}
+
+def jacocoReportExclusions = [
+        'com/brasil/transparente/api/BrasilTransparenteApiApplication*',
+        'com/brasil/transparente/api/dto/**',
+        'com/brasil/transparente/api/entity/**',
+        'com/brasil/transparente/api/repository/**',
+        'com/brasil/transparente/api/service/**'
+]
+
+def jacocoVerificationExclusions = [
+        'com.brasil.transparente.api.BrasilTransparenteApiApplication*',
+        'com.brasil.transparente.api.dto.*',
+        'com.brasil.transparente.api.entity.*',
+        'com.brasil.transparente.api.repository.*',
+        'com.brasil.transparente.api.service.*'
+]
+
+jacocoTestReport {
+    dependsOn test
+
+    classDirectories.setFrom(files(classDirectories.files.collect {
+        fileTree(dir: it, exclude: jacocoReportExclusions)
+    }))
+
+    reports {
+        html.required = true
+        xml.required = true
+        csv.required = false
+    }
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            element = 'CLASS'
+            excludes = jacocoVerificationExclusions
+
+            limit {
+                counter = 'LINE'
+                value = 'COVEREDRATIO'
+                minimum = 1.0
+            }
+            limit {
+                counter = 'BRANCH'
+                value = 'COVEREDRATIO'
+                minimum = 1.0
+            }
+        }
+    }
+}
+
+check.dependsOn jacocoTestCoverageVerification

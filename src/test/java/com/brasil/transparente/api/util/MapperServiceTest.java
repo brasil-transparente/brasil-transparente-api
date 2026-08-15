@@ -24,7 +24,7 @@ public class MapperServiceTest {
         assertEquals(name, dto.getName());
         assertEquals(totalValueSpent, dto.getTotalValueSpent());
         assertEquals(percentageOfTotal, dto.getPercentageOfTotal());
-        assertEquals(levelOfElement, dto.getLevel());
+        assertEquals(levelOfElement, dto.getLevelOfElement());
     }
 
 }

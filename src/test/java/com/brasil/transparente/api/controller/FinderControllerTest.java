@@ -29,7 +29,7 @@ public class FinderControllerTest {
             .name("Test Name")
             .totalValueSpent(100.0)
             .percentageOfTotal(5.0)
-            .level(1)
+            .levelOfElement(1)
             .build();
 
 
@@ -41,7 +41,7 @@ public class FinderControllerTest {
 
         assertNotNull(result);
         assertEquals(1, result.size());
-        assertEquals("Test Name", result.get(0).getName());
+        assertEquals("Test Name", result.getFirst().getName());
     }
 
     @Test

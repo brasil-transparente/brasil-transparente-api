@@ -38,4 +38,16 @@ public class OrdererServiceTest {
         assertEquals("Outros", list.get(2).getName());
     }
 
+    @Test
+    void shouldSortListWhenOutrosIsAbsent() {
+        List<DespesaSimplificada> list = new ArrayList<>(List.of(
+                DespesaSimplificada.builder().name("Educação").totalValue(10).build(),
+                DespesaSimplificada.builder().name("Saúde").totalValue(20).build()
+        ));
+
+        ordererService.orderDespesaSimplificadaListBySpending(list);
+
+        assertEquals(List.of("Saúde", "Educação"), list.stream().map(DespesaSimplificada::getName).toList());
+    }
+
 }
