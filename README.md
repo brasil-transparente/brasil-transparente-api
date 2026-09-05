@@ -17,25 +17,9 @@ Módulo responsável por ler dados do banco de dados e retornar para a interface
    ```
 2. Crie a estrutura do banco no MySQL importando o arquivo de Dump, localizado no Drive (link abaixo).
 3. Certifique-se de que os dados do banco de dados local estão corretos no application.properties.
-
-### 🚫🐋 Sem Docker:
-1. Suba a aplicação utilizando o SpringBoot, rodando a classe BrasilTransparenteApiApplication.
-2. Se tudo estiver correto, você pode chamar os métodos no Controller e receber as respostas.
+4. Suba a aplicação utilizando o SpringBoot, rodando a classe BrasilTransparenteApiApplication.
+5. Se tudo estiver correto, você pode chamar os métodos no Controller e receber as respostas.
  
-### ✅🐋 Com Docker:
-1. Altere seu localhost na JDBC query para `host.docker.internal`  
-   Exemplo:
-   ```properties
-   spring.datasource.url=jdbc:mysql://host.docker.internal:3306/gastos
-2. Construa a imagem Docker da aplicação:
-```bash
-   docker build -t brasil-transparente-api .
-```
-3. Execute o container Docker :
-```bash
-   docker run -p 8080:8080 brasil-transparente-api:latest
-```
-
 📁 Link para o Drive: https://drive.google.com/drive/folders/1EvbRIqP9Eg8dZJP6RKSpf7KoippdhC3c?usp=drive_link
 
 ## 🤝 Como Contribuir
@@ -48,8 +32,8 @@ Módulo responsável por ler dados do banco de dados e retornar para a interface
 [![AGPL-3.0](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 
 Este projeto está licenciado sob os termos da **GNU Affero General Public License v3.0** (AGPL-3.0).
-- ✅ Liberdade para usar e modificar.
-- 🔁 Exige compartilhamento das modificações.
-- 🌍 Código-fonte deve ser disponibilizado para usuários.
+- Liberdade para usar e modificar.
+- Exige compartilhamento das modificações.
+- Código-fonte deve ser disponibilizado para usuários.
 
 Consulte o arquivo LICENSE.md para o texto completo da licença.

@@ -23,7 +23,8 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: "temurin"
-          java-version: "21"
+          java-version: "25"
+          cache: gradle
 
       - name: Build application
         run: ./gradlew clean build -x test
@@ -59,4 +60,6 @@ jobs:
             --region="${{ secrets.REGION }}" \
             --platform managed \
             --allow-unauthenticated \
+            --max-instances=3 \
+            --concurrency=80 \
             --set-secrets DB_JDBC_URL=DB_JDBC_URL:latest,DB_USER=DB_USER:latest,DB_PASSWORD=DB_PASSWORD:latest
