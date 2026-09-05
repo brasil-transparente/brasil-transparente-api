@@ -1,7 +1,6 @@
 import java.text.SimpleDateFormat
 
 plugins {
-    id 'java'
     id 'application'
     id 'jacoco'
     id 'org.springframework.boot' version '3.5.7'
@@ -9,7 +8,6 @@ plugins {
     id 'org.jetbrains.kotlin.jvm' version '2.3.21'
     id 'org.jetbrains.kotlin.plugin.spring' version '2.3.21'
     id 'org.jetbrains.kotlin.plugin.jpa' version '2.3.21'
-    id "org.jetbrains.kotlin.plugin.lombok" version '2.3.21'
 }
 
 group = 'com.brasil.transparente.api'
@@ -23,11 +21,6 @@ def getVersionName = {
 
 version = getVersionName()
 println "🛠️ Building version: ${project.version}"
-
-java {
-    sourceCompatibility = '25'
-    targetCompatibility = '25'
-}
 
 kotlin {
     jvmToolchain(25)
@@ -47,7 +40,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
     // Kotlin
-    implementation 'org.jetbrains.kotlin:kotlin-reflect'
     implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
 
     // MySQL Connector
@@ -56,16 +48,12 @@ dependencies {
     // Google Cloud SQL
     implementation 'com.google.cloud.sql:mysql-socket-factory-connector-j-8:1.29.0'
 
-    // Lombok
-    implementation 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
-
     // JUnit
     testImplementation 'org.junit.jupiter:junit-jupiter:6.1.2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     // Swagger
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.13'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.9.0'
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
 
 }
