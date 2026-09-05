@@ -2,13 +2,22 @@
 
 Módulo responsável por ler dados do banco de dados e retornar para a interface.
 
+## 🛠️ Tecnologias Utilizadas
+
+- **Linguagem**: Kotlin 2.3.x
+- **JDK**: OpenJDK 25
+- **Framework**: Spring Boot 3.5.7
+- **Banco de Dados**: MySQL
+- **Build Tool**: Gradle
+- **Documentação de API**: OpenAPI / Swagger UI
+
 ## 📦 Instalação e Configuração
 
 ### Pré-requisitos
-- Java 25
+- JDK 25
 - MySQL
 - Git
-- Docker
+- Docker (opcional)
 
 ### Passos
 1. Clone o repositório:
@@ -16,16 +25,28 @@ Módulo responsável por ler dados do banco de dados e retornar para a interface
    git clone https://github.com/brasil-transparente/brasil-transparente-api.git
    ```
 2. Crie a estrutura do banco no MySQL importando o arquivo de Dump, localizado no Drive (link abaixo).
-3. Certifique-se de que os dados do banco de dados local estão corretos no application.properties.
-4. Suba a aplicação utilizando o SpringBoot, rodando a classe BrasilTransparenteApiApplication.
-5. Se tudo estiver correto, você pode chamar os métodos no Controller e receber as respostas.
- 
+3. Certifique-se de que os dados do banco de dados local estão corretos no `src/main/resources/application.properties`.
+4. Suba a aplicação utilizando Gradle Wrapper:
+   ```bash
+   ./gradlew bootRun
+   ```
+5. Acesse a documentação interativa das APIs (Swagger UI) no navegador:
+   ```text
+   http://localhost:8080/api/docs
+   ```
+
+### 🧪 Testes e Qualidade
+Para rodar os testes unitários e a verificação de cobertura de código (Jacoco):
+```bash
+./gradlew check
+```
+
 📁 Link para o Drive: https://drive.google.com/drive/folders/1EvbRIqP9Eg8dZJP6RKSpf7KoippdhC3c?usp=drive_link
 
 ## 🤝 Como Contribuir
 - 📌 **Participe no Discord**: A melhor forma de ajudar na contribuição do projeto é estar alinhado com o que está sendo discutido no nosso Discord:
   https://discord.gg/sQbf3bSzt4
-- 🐛 **Issues existentes**: Dentro do repositório no GitHub mantemos uma lista de Issues que devem trabalhadas, geralmente alocadas dentro de projetos. É possível acompanhar o andamento das entregas por lá.
+- 🐛 **Issues existentes**: Dentro do repositório no GitHub mantemos uma lista de Issues que devem ser trabalhadas, geralmente alocadas dentro de projetos. É possível acompanhar o andamento das entregas por lá.
 - 🛠️ **Reportar problemas/sugestões**: Para reportar bugs e sugerir novas melhorias, por favor, entre em contato com a gente no nosso Discord.
 
 ## ⚖️ Licença
