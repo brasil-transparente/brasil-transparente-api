@@ -6,7 +6,7 @@ Módulo responsável por ler dados do banco de dados e retornar para a interface
 
 - **Linguagem**: Kotlin 2.3.x
 - **JDK**: OpenJDK 25
-- **Framework**: Spring Boot 3.5.7
+- **Framework**: Spring Boot 4
 - **Banco de Dados**: MySQL
 - **Build Tool**: Gradle
 - **Documentação de API**: OpenAPI / Swagger UI
