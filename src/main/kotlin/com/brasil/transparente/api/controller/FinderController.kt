@@ -29,20 +29,16 @@ class FinderController(private val finderService: FinderService) {
         description = "Endpoints de navegação hierárquica que devem ser usados estritamente na ordem documentada. IDs obtidos em um nível são válidos somente para o nível imediatamente seguinte."
     )
     @Operation(
-        summary = "Ponto de entrada – Lista os Poderes de uma Unidade Federativa",
-        description = "Ponto de entrada obrigatório para exploração hierárquica. Retorna os poderes Executivo, Legislativo, Judiciário e outros. " +
-                "Para análise do Governo Federal brasileiro, unidadeFederativaId deve ser 1. Toda exploração hierárquica deve começar por este endpoint."
+        summary = "Ponto de entrada – Lista os Poderes da União",
+        description = "Ponto de entrada obrigatório para exploração hierárquica dos gastos federais. Retorna os poderes Executivo, Legislativo, Judiciário e outros."
     )
-    @GetMapping(value = ["/unidade-federativa/{unidadeFederativaId}/poderes"], produces = [APPLICATION_JSON_VALUE])
-    fun getPoderesByUnidadeFederativa(
-        @Parameter(description = "Identificador da Unidade Federativa. Use 1 para o Governo Federal brasileiro. Este valor é o ponto de partida obrigatório para a exploração.", required = true)
-        @PathVariable unidadeFederativaId: Long
-    ): List<DisplayableElementDTO> = finderService.getPoderesByUnidadeFederativa(unidadeFederativaId)
+    @GetMapping(value = ["/poderes"], produces = [APPLICATION_JSON_VALUE])
+    fun getPoderes(): List<DisplayableElementDTO> = finderService.getPoderes()
 
     @Tag(name = "Exploration")
     @Operation(
         summary = "Lista Ministérios por Poder",
-        description = "Retorna ministérios ou tribunais associados a um Poder específico. Este endpoint deve ser chamado apenas após obter um ID de Poder válido em /unidade-federativa/{id}/poderes. IDs de qualquer outro nível hierárquico são inválidos."
+        description = "Retorna ministérios ou tribunais associados a um Poder específico. Este endpoint deve ser chamado apenas após obter um ID de Poder válido em /poderes. IDs de qualquer outro nível hierárquico são inválidos."
     )
     @GetMapping(value = ["/poder/{idPoder}/ministerios"], produces = [APPLICATION_JSON_VALUE])
     fun getMinisterioByPoderId(
@@ -90,25 +86,19 @@ class FinderController(private val finderService: FinderService) {
         description = "Visões agregadas de alto nível para análise macro. Dados de Resumo não devem ser combinados ou reagregados com endpoints de Exploração."
     )
     @Operation(
-        summary = "Relatório Simplificado de Gastos por Unidade Federativa",
+        summary = "Relatório Simplificado de Gastos Federais",
         description = "Agregação reclassificada de alto nível das categorias de gasto público, com base na metodologia do projeto. " +
                 "Este endpoint é destinado somente a análises macro e explicações narrativas. " +
                 "Resultados deste endpoint não devem ser combinados ou agregados com endpoints de Exploração."
     )
-    @GetMapping(value = ["/despesa-simplificada/{unidadeFederativaId}"], produces = [APPLICATION_JSON_VALUE])
-    fun getDespesaSimplificada(
-        @Parameter(description = "Identificador da Unidade Federativa. Use 1 para o Governo Federal brasileiro.", required = true)
-        @PathVariable unidadeFederativaId: Long
-    ): List<DespesaSimplificada> = finderService.getDespesaSimplificada(unidadeFederativaId)
+    @GetMapping(value = ["/despesa-simplificada"], produces = [APPLICATION_JSON_VALUE])
+    fun getDespesaSimplificada(): List<DespesaSimplificada> = finderService.getDespesaSimplificada()
 
     @Tag(name = "Summary")
     @Operation(
-        summary = "Total de Gastos Pagos por Unidade Federativa",
-        description = "Valor total de gastos públicos efetivamente pagos por uma unidade federativa. Este valor representa um retrato anual em regime de caixa e não deve ser decomposto usando endpoints de Exploração."
+        summary = "Total de Gastos Federais Pagos",
+        description = "Valor total de gastos públicos federais efetivamente pagos. Este valor é a soma dos Poderes e representa um retrato anual em regime de caixa; não deve ser decomposto usando endpoints de Exploração."
     )
-    @GetMapping(value = ["/unidade-federativa/{unidadeFederativaId}/total-value-spent"], produces = [APPLICATION_JSON_VALUE])
-    fun getTotalValueSpentByUnidadeFederativaId(
-        @Parameter(description = "Identificador da Unidade Federativa. Use 1 para o Governo Federal brasileiro.", required = true)
-        @PathVariable unidadeFederativaId: Long
-    ): Double = finderService.getTotalValueSpentByUnidadeFederativaId(unidadeFederativaId)
+    @GetMapping(value = ["/total-value-spent"], produces = [APPLICATION_JSON_VALUE])
+    fun getTotalValueSpent(): Double = finderService.getTotalValueSpent()
 }

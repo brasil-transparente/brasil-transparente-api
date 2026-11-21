@@ -5,8 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface UnidadeGestoraRepository : JpaRepository<UnidadeGestora, String> {
+interface UnidadeGestoraRepository : JpaRepository<UnidadeGestora, Long> {
 
-    fun findByOrgaoOrgaoId(orgaoId : Long?) : List<UnidadeGestora>
+    fun findByOrgaoOrgaoId(orgaoId : Long) : List<UnidadeGestora>
 
 }
