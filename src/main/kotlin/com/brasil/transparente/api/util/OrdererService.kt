@@ -11,12 +11,11 @@ class OrdererService {
     }
 
     fun orderDespesaSimplificadaListBySpending(despesaSimplificadaList: MutableList<DespesaSimplificada>) {
-            despesaSimplificadaList.sortByDescending { it.totalValue }
-            val outros = despesaSimplificadaList.firstOrNull { it.name == OUTROS}
-            if (outros != null) {
-                despesaSimplificadaList.remove(outros)
-                despesaSimplificadaList.add(outros)
-            }
+        despesaSimplificadaList.sortByDescending { it.totalValue }
+        val outros = despesaSimplificadaList.firstOrNull { it.name == OUTROS }
+        if (outros != null) {
+            despesaSimplificadaList.remove(outros)
+            despesaSimplificadaList.add(outros)
+        }
     }
-
 }

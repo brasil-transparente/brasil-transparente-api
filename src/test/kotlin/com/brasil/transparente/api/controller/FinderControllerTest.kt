@@ -41,10 +41,10 @@ class FinderControllerTest {
     }
 
     @Test
-    fun shouldReturnPoderesByUnidadeFederativa() {
-        `when`(finderService.getPoderesByUnidadeFederativa(99L)).thenReturn(listOf(displayableElementDTO))
+    fun shouldReturnPoderes() {
+        `when`(finderService.getPoderes()).thenReturn(listOf(displayableElementDTO))
 
-        val result = finderController.getPoderesByUnidadeFederativa(99L)
+        val result = finderController.getPoderes()
 
         assertNotNull(result)
         assertEquals(1, result.size)
@@ -85,22 +85,22 @@ class FinderControllerTest {
     }
 
     @Test
-    fun shouldReturnDespesaSimplificadaByUnidadeFederativaId() {
+    fun shouldReturnDespesaSimplificada() {
         val simplificada = DespesaSimplificada()
 
-        `when`(finderService.getDespesaSimplificada(55L)).thenReturn(listOf(simplificada))
+        `when`(finderService.getDespesaSimplificada()).thenReturn(listOf(simplificada))
 
-        val result = finderController.getDespesaSimplificada(55L)
+        val result = finderController.getDespesaSimplificada()
 
         assertNotNull(result)
         assertEquals(1, result.size)
     }
 
     @Test
-    fun shouldReturnTotalValueSpentByUnidadeFederativaId() {
-        `when`(finderService.getTotalValueSpentByUnidadeFederativaId(44L)).thenReturn(1234.56)
+    fun shouldReturnTotalValueSpent() {
+        `when`(finderService.getTotalValueSpent()).thenReturn(1234.56)
 
-        val result = finderController.getTotalValueSpentByUnidadeFederativaId(44L)
+        val result = finderController.getTotalValueSpent()
 
         assertEquals(1234.56, result)
     }

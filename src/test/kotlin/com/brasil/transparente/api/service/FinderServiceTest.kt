@@ -35,9 +35,6 @@ class FinderServiceTest {
     private lateinit var elementoDespesaRepository: ElementoDespesaRepository
 
     @Mock
-    private lateinit var unidadeFederativaRepository: UnidadeFederativaRepository
-
-    @Mock
     private lateinit var despesaSimplificadaRepository: DespesaSimplificadaRepository
 
     @Mock
@@ -50,8 +47,7 @@ class FinderServiceTest {
     private lateinit var finderService: FinderService
 
     @Test
-    fun `getPoderesByUnidadeFederativa should return list of DisplayableElementDTO with level 0`() {
-        val ufId = 1L
+    fun `getPoderes should return list of DisplayableElementDTO with level 0`() {
         val poder = Poder().apply {
             poderId = 10L
             namePoder = "Executivo"
@@ -60,15 +56,15 @@ class FinderServiceTest {
         }
         val dto = DisplayableElementDTO(10L, "Executivo", 1000.0, 50.0, 0)
 
-        `when`(poderRepository.findByUnidadeFederativaUnidadeFederativaId(ufId)).thenReturn(listOf(poder))
-        `when`(mapperService.mapToDisplayableElementDto(10L, "Executivo", 1000.0, 50.0, 0)).thenReturn(dto)
+        `when`(poderRepository.findAll()).thenReturn(listOf(poder))
+        `when`(mapperService.toDto(poder)).thenReturn(dto)
 
-        val result = finderService.getPoderesByUnidadeFederativa(ufId)
+        val result = finderService.getPoderes()
 
         assertEquals(1, result.size)
         assertEquals(dto, result.first())
-        verify(poderRepository).findByUnidadeFederativaUnidadeFederativaId(ufId)
-        verify(mapperService).mapToDisplayableElementDto(10L, "Executivo", 1000.0, 50.0, 0)
+        verify(poderRepository).findAll()
+        verify(mapperService).toDto(poder)
     }
 
     @Test
@@ -83,14 +79,14 @@ class FinderServiceTest {
         val dto = DisplayableElementDTO(20L, "Ministério da Saúde", 500.0, 25.0, 1)
 
         `when`(ministerioRepository.findByPoderPoderId(poderId)).thenReturn(listOf(ministerio))
-        `when`(mapperService.mapToDisplayableElementDto(20L, "Ministério da Saúde", 500.0, 25.0, 1)).thenReturn(dto)
+        `when`(mapperService.toDto(ministerio)).thenReturn(dto)
 
         val result = finderService.getMinisterioByPoderId(poderId)
 
         assertEquals(1, result.size)
         assertEquals(dto, result.first())
         verify(ministerioRepository).findByPoderPoderId(poderId)
-        verify(mapperService).mapToDisplayableElementDto(20L, "Ministério da Saúde", 500.0, 25.0, 1)
+        verify(mapperService).toDto(ministerio)
     }
 
     @Test
@@ -112,8 +108,8 @@ class FinderServiceTest {
         val dto2 = DisplayableElementDTO(31L, "Órgão B", 300.0, 15.0, 2)
 
         `when`(orgaoRepository.findByMinisterioMinisterioId(ministerioId)).thenReturn(listOf(orgao1, orgao2))
-        `when`(mapperService.mapToDisplayableElementDto(30L, "Órgão A", 200.0, 10.0, 2)).thenReturn(dto1)
-        `when`(mapperService.mapToDisplayableElementDto(31L, "Órgão B", 300.0, 15.0, 2)).thenReturn(dto2)
+        `when`(mapperService.toDto(orgao1)).thenReturn(dto1)
+        `when`(mapperService.toDto(orgao2)).thenReturn(dto2)
 
         val result = finderService.getOrgaoByMinisterioId(ministerioId)
 
@@ -141,6 +137,39 @@ class FinderServiceTest {
     }
 
     @Test
+    fun `getOrgaoByMinisterioId should return ElementoDespesa when single orgao matches single UG name`() {
+        val ministerioId = 20L
+        val orgaoId = 30L
+        val sameName = "Órgão e UG"
+        val orgao = Orgao().apply {
+            this.orgaoId = orgaoId
+            nameOrgao = sameName
+        }
+        val ug = UnidadeGestora().apply {
+            unidadeGestoraId = 40L
+            nameUnidadeGestora = "Outro Nome"
+        }
+        val ugDto = DisplayableElementDTO(40L, sameName, 100.0, 5.0, 3)
+        val elemento = ElementoDespesa().apply {
+            elementoDespesaId = 50L
+            nameElementoDespesa = "Elemento Final"
+        }
+        val elementoDto = DisplayableElementDTO(50L, "Elemento Final", 100.0, 5.0, 4)
+
+        `when`(orgaoRepository.findByMinisterioMinisterioId(ministerioId)).thenReturn(listOf(orgao))
+        `when`(unidadeGestoraRepository.findByOrgaoOrgaoId(orgaoId)).thenReturn(listOf(ug))
+        `when`(orgaoRepository.findById(orgaoId)).thenReturn(Optional.of(orgao))
+        `when`(mapperService.toDto(ug)).thenReturn(ugDto)
+        `when`(elementoDespesaRepository.findByUnidadeGestoraUnidadeGestoraId(40L)).thenReturn(listOf(elemento))
+        `when`(mapperService.toDto(elemento)).thenReturn(elementoDto)
+
+        val result = finderService.getOrgaoByMinisterioId(ministerioId)
+
+        assertEquals(1, result.size)
+        assertEquals(elementoDto, result.first())
+    }
+
+    @Test
     fun `getUnidadeGestoraByOrgaoId should return Unidades Gestoras when multiple exist`() {
         val orgaoId = 30L
         val ug1 = UnidadeGestora().apply {
@@ -159,8 +188,8 @@ class FinderServiceTest {
         val dto2 = DisplayableElementDTO(41L, "UG 2", 100.0, 5.0, 3)
 
         `when`(unidadeGestoraRepository.findByOrgaoOrgaoId(orgaoId)).thenReturn(listOf(ug1, ug2))
-        `when`(mapperService.mapToDisplayableElementDto(40L, "UG 1", 100.0, 5.0, 3)).thenReturn(dto1)
-        `when`(mapperService.mapToDisplayableElementDto(41L, "UG 2", 100.0, 5.0, 3)).thenReturn(dto2)
+        `when`(mapperService.toDto(ug1)).thenReturn(dto1)
+        `when`(mapperService.toDto(ug2)).thenReturn(dto2)
 
         val result = finderService.getUnidadeGestoraByOrgaoId(orgaoId)
 
@@ -191,9 +220,9 @@ class FinderServiceTest {
         val elementoDto = DisplayableElementDTO(50L, "Elemento X", 100.0, 5.0, 4)
 
         `when`(unidadeGestoraRepository.findByOrgaoOrgaoId(orgaoId)).thenReturn(listOf(ug))
-        `when`(orgaoRepository.findById(orgaoId.toString())).thenReturn(Optional.of(orgao))
+        `when`(orgaoRepository.findById(orgaoId)).thenReturn(Optional.of(orgao))
         `when`(elementoDespesaRepository.findByUnidadeGestoraUnidadeGestoraId(40L)).thenReturn(listOf(elemento))
-        `when`(mapperService.mapToDisplayableElementDto(50L, "Elemento X", 100.0, 5.0, 4)).thenReturn(elementoDto)
+        `when`(mapperService.toDto(elemento)).thenReturn(elementoDto)
 
         val result = finderService.getUnidadeGestoraByOrgaoId(orgaoId)
 
@@ -217,8 +246,8 @@ class FinderServiceTest {
         val ugDto = DisplayableElementDTO(40L, "Nome UG", 100.0, 5.0, 3)
 
         `when`(unidadeGestoraRepository.findByOrgaoOrgaoId(orgaoId)).thenReturn(listOf(ug))
-        `when`(orgaoRepository.findById(orgaoId.toString())).thenReturn(Optional.of(orgao))
-        `when`(mapperService.mapToDisplayableElementDto(40L, "Nome UG", 100.0, 5.0, 3)).thenReturn(ugDto)
+        `when`(orgaoRepository.findById(orgaoId)).thenReturn(Optional.of(orgao))
+        `when`(mapperService.toDto(ug)).thenReturn(ugDto)
 
         val result = finderService.getUnidadeGestoraByOrgaoId(orgaoId)
 
@@ -235,7 +264,7 @@ class FinderServiceTest {
         }
 
         `when`(unidadeGestoraRepository.findByOrgaoOrgaoId(orgaoId)).thenReturn(listOf(ug))
-        `when`(orgaoRepository.findById(orgaoId.toString())).thenReturn(Optional.empty())
+        `when`(orgaoRepository.findById(orgaoId)).thenReturn(Optional.empty())
 
         val exception = assertThrows<EntityNotFoundException> {
             finderService.getUnidadeGestoraByOrgaoId(orgaoId)
@@ -256,7 +285,7 @@ class FinderServiceTest {
         val dto = DisplayableElementDTO(50L, "Elemento Y", 150.0, 7.5, 4)
 
         `when`(elementoDespesaRepository.findByUnidadeGestoraUnidadeGestoraId(ugId)).thenReturn(listOf(elemento))
-        `when`(mapperService.mapToDisplayableElementDto(50L, "Elemento Y", 150.0, 7.5, 4)).thenReturn(dto)
+        `when`(mapperService.toDto(elemento)).thenReturn(dto)
 
         val result = finderService.getElementoDespesaByUnidadeGestoraId(ugId)
 
@@ -266,28 +295,26 @@ class FinderServiceTest {
 
     @Test
     fun `getDespesaSimplificada should return ordered list of DespesaSimplificada`() {
-        val ufId = 1L
         val despesa = DespesaSimplificada()
         val despesaList = mutableListOf(despesa)
 
-        `when`(despesaSimplificadaRepository.findByUnidadeFederativa(ufId)).thenReturn(despesaList)
+        `when`(despesaSimplificadaRepository.findAll()).thenReturn(despesaList)
 
-        val result = finderService.getDespesaSimplificada(ufId)
+        val result = finderService.getDespesaSimplificada()
 
         assertEquals(despesaList, result)
         verify(ordererService).orderDespesaSimplificadaListBySpending(despesaList)
     }
 
     @Test
-    fun `getTotalValueSpentByUnidadeFederativaId should return total value spent`() {
-        val ufId = 1L
+    fun `getTotalValueSpent should return total value spent`() {
         val expectedTotal = 150000.0
 
-        `when`(unidadeFederativaRepository.findTotalValueSpentByUnidadeFederativaId(ufId)).thenReturn(expectedTotal)
+        `when`(poderRepository.getTotalValueSpent()).thenReturn(expectedTotal)
 
-        val result = finderService.getTotalValueSpentByUnidadeFederativaId(ufId)
+        val result = finderService.getTotalValueSpent()
 
         assertEquals(expectedTotal, result)
-        verify(unidadeFederativaRepository).findTotalValueSpentByUnidadeFederativaId(ufId)
+        verify(poderRepository).getTotalValueSpent()
     }
 }
