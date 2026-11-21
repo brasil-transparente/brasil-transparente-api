@@ -6,7 +6,7 @@ API REST em Kotlin e Spring Boot responsável por ler e expor dados de gastos p�
 
 - **Linguagem**: Kotlin 2.3.x
 - **JDK**: OpenJDK 25
-- **Framework**: Spring Boot 4.1.x
+- **Framework**: Spring Boot 4
 - **Banco de Dados**: MySQL
 - **Build Tool**: Gradle
 - **Documentação de API**: OpenAPI / Swagger UI
