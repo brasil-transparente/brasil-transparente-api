@@ -16,7 +16,6 @@ class FinderService(
     private val orgaoRepository: OrgaoRepository,
     private val unidadeGestoraRepository: UnidadeGestoraRepository,
     private val elementoDespesaRepository: ElementoDespesaRepository,
-    private val unidadeFederativaRepository: UnidadeFederativaRepository,
     private val despesaSimplificadaRepository: DespesaSimplificadaRepository,
     private val ordererService: OrdererService,
     private val mapperService: MapperService
@@ -30,8 +29,8 @@ class FinderService(
         private const val ELEMENTO_DESPESA_LEVEL = 4
     }
 
-    fun getPoderesByUnidadeFederativa(unidadeFederativaId: Long): List<DisplayableElementDTO> {
-        val poderList: List<Poder> = poderRepository.findByUnidadeFederativaUnidadeFederativaId(unidadeFederativaId)
+    fun getPoderes(): List<DisplayableElementDTO> {
+        val poderList: List<Poder> = poderRepository.findAll()
         val displayableElementDTOList = mutableListOf<DisplayableElementDTO>()
         for (poder in poderList) {
             displayableElementDTOList.add(
@@ -59,7 +58,8 @@ class FinderService(
         val orgaoList = orgaoRepository.findByMinisterioMinisterioId(ministerioId)
 
         if (orgaoList.size == 1) {
-            val unidadeGestoraList = getUnidadeGestoraByOrgaoId(orgaoList.first().orgaoId)
+            val orgaoId = requireNotNull(orgaoList.first().orgaoId) { "Órgão sem identificador" }
+            val unidadeGestoraList = getUnidadeGestoraByOrgaoId(orgaoId)
             return if (unidadeGestoraList.size == 1 && orgaoList.first() == unidadeGestoraList.first()) {
                 getElementoDespesaByUnidadeGestoraId(unidadeGestoraList.first().id)
             } else {
@@ -79,11 +79,11 @@ class FinderService(
         return displayableElementDTOList
     }
 
-    fun getUnidadeGestoraByOrgaoId(orgaoId: Long?): List<DisplayableElementDTO> {
+    fun getUnidadeGestoraByOrgaoId(orgaoId: Long): List<DisplayableElementDTO> {
         val unidadeGestoraList = unidadeGestoraRepository.findByOrgaoOrgaoId(orgaoId)
 
         if (unidadeGestoraList.size == 1) {
-            val orgao = orgaoRepository.findById(orgaoId.toString())
+            val orgao = orgaoRepository.findById(orgaoId)
                 .orElseThrow { EntityNotFoundException("Órgão não encontrado: $orgaoId") }
             if (orgao.nameOrgao == unidadeGestoraList.first().nameUnidadeGestora) {
                 return getElementoDespesaByUnidadeGestoraId(unidadeGestoraList.first().unidadeGestoraId)
@@ -116,14 +116,14 @@ class FinderService(
         return displayableElementDTOList
     }
 
-    fun getDespesaSimplificada(unidadeFederativaId: Long): List<DespesaSimplificada> {
-        val despesaSimplificadaList = despesaSimplificadaRepository.findByUnidadeFederativa(unidadeFederativaId)
+    fun getDespesaSimplificada(): List<DespesaSimplificada> {
+        val despesaSimplificadaList = despesaSimplificadaRepository.findAll().toMutableList()
         ordererService.orderDespesaSimplificadaListBySpending(despesaSimplificadaList)
         return despesaSimplificadaList
     }
 
-    fun getTotalValueSpentByUnidadeFederativaId(unidadeFederativaId: Long): Double {
-        return unidadeFederativaRepository.findTotalValueSpentByUnidadeFederativaId(unidadeFederativaId)
+    fun getTotalValueSpent(): Double {
+        return poderRepository.getTotalValueSpent()
     }
 
 }

@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface MinisterioRepository : JpaRepository<Ministerio, String> {
+interface MinisterioRepository : JpaRepository<Ministerio, Long> {
 
     fun findByPoderPoderId(poderId : Long) : List<Ministerio>
 

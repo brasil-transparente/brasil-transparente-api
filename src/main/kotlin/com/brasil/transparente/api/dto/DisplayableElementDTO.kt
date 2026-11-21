@@ -12,6 +12,6 @@ data class DisplayableElementDTO(
     var totalValueSpent: Double? = null,
     @field:Schema(description = "Percentual do total do nível pai representado por este elemento")
     var percentageOfTotal: Double? = null,
-    @field:Schema(description = "Indicador do nível hierárquico: 1=Unidade Federativa, 2=Poder, 3=Ministério, 4=Órgão, 5=Unidade Gestora")
+    @field:Schema(description = "Indicador do nível hierárquico: 0=Poder, 1=Ministério, 2=Órgão, 3=Unidade Gestora, 4=Elemento de Despesa")
     var level: Int? = null,
 )

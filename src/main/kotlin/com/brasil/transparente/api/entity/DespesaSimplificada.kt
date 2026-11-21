@@ -23,10 +23,7 @@ class DespesaSimplificada {
     @field:Schema(description = "Valor total efetivamente pago para esta categoria, em BRL")
     var totalValue: Double? = null
 
-    @field:Schema(description = "Percentual do total de gastos da unidade pela categoria")
+    @field:Schema(description = "Percentual do total de gastos federais pela categoria")
     var percentageOfTotal: Double? = null
-
-    @field:Schema(description = "Identificador da Unidade Federativa à qual este registro de gasto pertence. Use 1 para o Governo Federal")
-    var unidadeFederativaId: Long? = null
 
 }
